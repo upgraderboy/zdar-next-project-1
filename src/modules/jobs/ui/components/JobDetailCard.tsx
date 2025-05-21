@@ -54,18 +54,26 @@ export function JobDetailCard({ job }: { job: GetAllJobsOutput[number] }) {
                 <div>
                   <h3 className="text-lg font-semibold">Skills</h3>
                   <div className="flex flex-wrap gap-2 mb-2">
-                    {job?.hardSkills?.map((skill, index) => (
-                      <Badge key={index} variant="secondary">
-                        {skill}
-                      </Badge>
-                    ))}
+                    {job?.hardSkills?.map((skill, index) => {
+                      if(skill){
+                        return (
+                          <Badge key={index} variant="secondary">
+                            {skill}
+                          </Badge>
+                        )
+                      }
+                    })}
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {job?.softSkills?.map((skill, index) => (
-                      <Badge key={index} variant="outline">
-                        {skill}
-                      </Badge>
-                    ))}
+                    {job?.softSkills?.map((skill, index) => {
+                      if(skill){
+                        return (
+                          <Badge key={index} variant="outline">
+                            {skill}
+                          </Badge>
+                        )
+                      }
+                    })}
                   </div>
                 </div>
               </div>

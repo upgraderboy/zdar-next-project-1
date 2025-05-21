@@ -80,25 +80,25 @@ export function RegisterForm({
     setError(null)
 
     try {
-      // const { email, password } = values
+      // const { email, password } = form.getValues()
 
       
-      // const publicMetadata = values.role === 'CANDIDATE'
+      // const publicMetadata = role === 'CANDIDATE'
       //   ? {
-      //     role: values.role,
-      //     fullName: values.fullName,
+      //     role,
+      //     fullName: form.getValues().fullName,
       //   }
       //   : {
-      //     role: values.role,
-      //     companyName: values.companyName,
-      //     websiteUrl: values.websiteUrl,
+      //     role,
+      //     companyName: form.getValues().companyName,
+      //     websiteUrl: form.getValues().websiteUrl,
       //   }
         
-        // const result = await signUp.create({
-        //   emailAddress: email,
-        //   password,
-        //   unsafeMetadata: publicMetadata
-        // })
+      //   const result = await signUp.create({
+      //     emailAddress: email,
+      //     password,
+      //     unsafeMetadata: publicMetadata
+      //   })
 
 
         // const protocol = window.location.protocol

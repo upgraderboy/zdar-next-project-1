@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && cp -r .next/static .next/standalone/.next/",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -47,7 +47,7 @@
     "d3-cloud": "^1.2.7",
     "date-fns": "^4.1.0",
     "dotenv": "16.4.7",
-    "drizzle-kit": "^0.31.1",
+    "drizzle-kit": "0.30.3",
     "drizzle-orm": "0.39.0",
     "drizzle-zod": "0.7.0",
     "leaflet": "^1.9.4",

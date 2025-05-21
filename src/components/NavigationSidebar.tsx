@@ -2,9 +2,9 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { HomeIcon, LibraryIcon, FlameIcon, Currency, User2Icon, HeartIcon, FormInputIcon, FileIcon } from "lucide-react"
-import { useAuth, useUser } from "@clerk/clerk-react"
 import { useClerk } from "@clerk/nextjs"
 import Link from "next/link"
+import { Roles } from "../../types/globals"
 const candidateItems = [
     {
         title: "Home",
@@ -95,15 +95,14 @@ const defaultItems = [
         icon: FlameIcon,
     }
 ]
-export const NavigationSidebar = () => {
-    const clerk = useClerk();
-    const { isSignedIn } = useAuth();
-    const { user } = useUser();
+export const NavigationSidebar = ({role, userId}: {role?: Roles, userId?: string}) => {
+    console.log(role, userId);
+    const user = useClerk();
     return (
         <Sidebar className="pt-16 z-40 border-none" collapsible="icon">
             <SidebarContent>
                 {
-                    user?.unsafeMetadata.role === "CANDIDATE" && (
+                    role === "CANDIDATE" && (
                         <SidebarGroup>
                             <SidebarGroupContent>
                                 <SidebarMenu>
@@ -111,9 +110,9 @@ export const NavigationSidebar = () => {
                                         return (
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton tooltip={item.title} asChild isActive={false} onClick={(e) => {
-                                                    if (!isSignedIn) {
+                                                    if (!userId) {
                                                         e.preventDefault();
-                                                        return clerk.openSignIn({
+                                                        return user.openSignIn({
                                                             redirectUrl: window.location.href,
                                                         });
                                                     }
@@ -133,7 +132,7 @@ export const NavigationSidebar = () => {
                 }
                 <Separator />
                 {
-                    !user && (
+                    !userId && (
                         <SidebarGroup>
                             <SidebarGroupContent>
                                 <SidebarMenu>
@@ -141,9 +140,9 @@ export const NavigationSidebar = () => {
                                         return (
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton tooltip={item.title} asChild isActive={false} onClick={(e) => {
-                                                    if (!isSignedIn) {
+                                                    if (!userId) {
                                                         e.preventDefault();
-                                                        return clerk.openSignIn({
+                                                        return user.openSignIn({
                                                             redirectUrl: window.location.href,
                                                         });
                                                     }
@@ -163,7 +162,7 @@ export const NavigationSidebar = () => {
                 }
                 <Separator />
                 {
-                    user?.unsafeMetadata.role === "COMPANY" && (
+                    role === "COMPANY" && (
                         <SidebarGroup>
                             <SidebarGroupContent>
                                 <SidebarMenu>
@@ -171,9 +170,9 @@ export const NavigationSidebar = () => {
                                         return (
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton tooltip={item.title} asChild isActive={false} onClick={(e) => {
-                                                    if (!isSignedIn) {
+                                                    if (userId) {
                                                         e.preventDefault();
-                                                        return clerk.openSignIn({
+                                                        return user.openSignIn({
                                                             redirectUrl: window.location.href,
                                                         });
                                                     }
@@ -191,7 +190,6 @@ export const NavigationSidebar = () => {
                         </SidebarGroup>
                     )
                 }
-                {/* <PersonalSection /> */}
             </SidebarContent>
         </Sidebar>
     )

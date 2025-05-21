@@ -35,7 +35,7 @@ import {
     Input
 } from "@/components/ui/input"
 import LocationSelector from "@/components/ui/location-input"
-import PhoneInput from "react-phone-number-input";;
+import { PhoneInput } from "@/components/ui/phone-input"
 import {
     Select,
     SelectContent,

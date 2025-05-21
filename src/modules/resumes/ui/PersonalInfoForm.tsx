@@ -21,7 +21,7 @@ import { ImagePlusIcon, MoreVerticalIcon } from "lucide-react";
 import { ImageUploadModal } from "@/components/image-upload-modal";
 import { LocationPicker } from "./LocationPicker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import PhoneInput from "react-phone-number-input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function PersonalInfoForm({

@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
@@ -17,7 +16,8 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ageOptions } from "@/types"
-
+import LoadingButton from "@/modules/resumes/ui/components/LoadingButton"
+import { useRouter } from "next/navigation"
 interface JobFormProps {
   initialData?: z.infer<typeof jobInsertSchema> & { id?: string }; // id optional for new record
 }
@@ -26,10 +26,12 @@ export default function JobForm({ initialData }: JobFormProps) {
 
   console.log(isEdit)
   const utils = trpc.useUtils();
+  const router = useRouter();
   const createJob = trpc.job.createJob.useMutation({
     onSuccess: () => {
       utils.job.invalidate(); // refetch after create
       toast("Job successfully created!");
+      router.push("/jobs")
     },
   });
 
@@ -37,6 +39,7 @@ export default function JobForm({ initialData }: JobFormProps) {
     onSuccess: () => {
       utils.job.invalidate(); // refetch after update
       toast("Job successfully updated!");
+      router.push("/jobs")
     },
   });
   const form = useForm<z.infer<typeof jobInsertSchema>>({
@@ -61,8 +64,10 @@ export default function JobForm({ initialData }: JobFormProps) {
   const onSubmit = async (values: z.infer<typeof jobInsertSchema>) => {
     if (isEdit && initialData?.id) {
       await updateJob.mutateAsync({ ...values, id: initialData.id });
+      
     } else {
       await createJob.mutateAsync(values);
+      
     }
   };
   console.log(JSON.stringify(form.formState.errors));
@@ -334,7 +339,7 @@ export default function JobForm({ initialData }: JobFormProps) {
 
         {/* Navigation Buttons */}
         <div className="flex justify-between pt-4">
-          <Button type="submit" className="bg-[#ff4500] hover:bg-[#ff4500]/90">Submit</Button>
+          <LoadingButton loading={createJob.isPending || updateJob.isPending} disabled={createJob.isPending || updateJob.isPending} onClick={form.handleSubmit(onSubmit)}>Submit</LoadingButton>
         </div>
 
       </form>

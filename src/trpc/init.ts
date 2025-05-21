@@ -86,6 +86,7 @@ export const companyProcedure = t.procedure.use(async (opts)=>{
             code: "UNAUTHORIZED"
         })
     }
+    console.log("-------------------------------------", ctx)
     const [user] = await db.select().from(companies).where(eq(companies.clerkId, ctx.clerkUserId));
     if(!user) {
         throw new TRPCError({

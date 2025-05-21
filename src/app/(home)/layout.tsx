@@ -1,13 +1,15 @@
 import { HomeLayout } from "@/components/HomeLayout";
 import Footer from "@/components/Footer";
+import { auth } from "@clerk/nextjs/server";
 interface HomeLayoutProps {
     children: React.ReactNode;
 }
 
-const Layout = ({ children }: HomeLayoutProps) => {
+const Layout = async ({ children }: HomeLayoutProps) => {
+    const { sessionClaims, userId } = await auth();
     return (
         <>
-            <HomeLayout>
+            <HomeLayout role={sessionClaims?.metadata.role} userId={userId || undefined}>
                 {children}
             <Footer />
             </HomeLayout>

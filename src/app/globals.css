@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/react/dist";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -41,6 +42,26 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 :root {
@@ -118,5 +139,32 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.cl-internal-1dauvpw, .cl-internal-1hp5nqm{
+  display: none;
+}
+
+.cl-internal-1dauvpw, .cl-internal-1hp5nqm{
+  display: none;
+}
+.cl-internal-1dauvpw, .cl-internal-1hp5nqm, .cl-internal-4x6jej{
+  display: none;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: white;
+    font-size: 10pt;
+  }
+
+  #resumePreviewContent {
+    transform: none !important;
+    width: 210mm;
+    height: 297mm;
+    zoom: 1 !important;
   }
 }
