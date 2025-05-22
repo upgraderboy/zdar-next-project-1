@@ -18,7 +18,7 @@ export default function FavoriteJobsView() {
 
     const [jobs] = trpc.favorites.getFavoriteJobs.useSuspenseQuery({
         search: debouncedSearch,
-        // sortBy,
+        sortBy,
         sortOrder,
     });
 

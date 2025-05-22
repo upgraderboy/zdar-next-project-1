@@ -7,9 +7,15 @@ import Link from "next/link"
 import { Roles } from "../../types/globals"
 const candidateItems = [
     {
-        title: "Home",
-        href: "/candidates",
+        title: "My Profile",
+        href: "/profile",
         icon: User2Icon,
+        auth: true
+    },
+    {
+        title: "My Resume",
+        href: "/resume",
+        icon: FormInputIcon,
         auth: true
     },
     {
@@ -26,26 +32,16 @@ const candidateItems = [
     },
     {
         title: "Favorite Jobs",
-        href: "/candidates/favorites",
+        href: "/favorites",
         icon: FileIcon,
         auth: true
     }
 ]
 const companyItems = [
     {
-        title: "Home",
-        href: "/companies",
-        icon: HomeIcon
-    },
-    {
         title: "My Profile",
-        href: "/companies/profile",
+        href: "/profile",
         icon: LibraryIcon
-    },
-    {
-        title: "Job List",
-        href: "/jobs",
-        icon: FlameIcon,
     },
     {
         title: "New Job",
@@ -54,7 +50,7 @@ const companyItems = [
     },
     {
         title: "Favorite Candidates",
-        href: "/companies/favorites",
+        href: "/favorites",
         icon: Currency,
     },
     {

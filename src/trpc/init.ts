@@ -12,7 +12,6 @@ import { eq } from 'drizzle-orm';
 export const createTRPCContext = cache(async () => {
   const user = await auth();
   const role = user.sessionClaims?.metadata.role;
-//   console.log("-------------------------------------", user)
   return { clerkUserId: user.userId, role };
 });
 
@@ -36,7 +35,6 @@ export const baseProcedure = t.procedure;
 
 export const protectedProcedure = t.procedure.use(async (opts)=>{
     const { ctx } = opts;
-    console.log("-------------------------------------", ctx)
     if(!ctx.clerkUserId) {
         throw new TRPCError({
             code: "UNAUTHORIZED"
@@ -52,20 +50,15 @@ export const protectedProcedure = t.procedure.use(async (opts)=>{
 });
 export const candidateProcedure = t.procedure.use(async (opts)=>{
     const { ctx } = opts;
+    console.log(ctx)
     if(!ctx.clerkUserId) {
         throw new TRPCError({   
             code: "UNAUTHORIZED"
         })
     }
     const [user] = await db.select().from(candidates).where(eq(candidates.clerkId, ctx.clerkUserId));
-    
-    // console.log("-------------------------------------", user)
-    if(!user) {
-        throw new TRPCError({
-            code: "UNAUTHORIZED"
-        })
-    }
-    if(ctx.role !== "CANDIDATE") {
+    console.log(user)
+    if(!user || ctx.role !== "CANDIDATE") {
         throw new TRPCError({
             code: "UNAUTHORIZED"
         })
@@ -86,14 +79,8 @@ export const companyProcedure = t.procedure.use(async (opts)=>{
             code: "UNAUTHORIZED"
         })
     }
-    console.log("-------------------------------------", ctx)
     const [user] = await db.select().from(companies).where(eq(companies.clerkId, ctx.clerkUserId));
-    if(!user) {
-        throw new TRPCError({
-            code: "UNAUTHORIZED"
-        })
-    }
-    if(ctx.role !== "COMPANY") {
+    if(!user || ctx.role !== "COMPANY") {
         throw new TRPCError({
             code: "UNAUTHORIZED"
         })

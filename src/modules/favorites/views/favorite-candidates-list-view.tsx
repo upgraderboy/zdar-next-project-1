@@ -16,7 +16,7 @@ export default function FavoriteCandidatesView() {
     const [sortBy, setSortBy] = useState<"name" | "createdAt">("createdAt");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-    const { data, isLoading } = trpc.favorites.getFavoriteCandidates.useQuery({
+    const [data, isLoading] = trpc.favorites.getFavoriteCandidates.useSuspenseQuery({
         search: debouncedSearch,
         sortBy,
         sortOrder,

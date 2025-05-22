@@ -41,7 +41,7 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
     <div className={cn("group relative rounded-lg border border-transparent bg-secondary p-3 transition-colors hover:border-border", data?.defaultResumeId === resume.id ? "border-primary hover:border-primary" : "")}>
       <div className="space-y-3">
         <Link
-          href={`/candidates/resume/editor/${resume.id}`}
+          href={`/resume/editor/${resume.id}`}
           className="inline-block w-full text-center"
         >
           <p className="line-clamp-1 font-semibold">
@@ -56,7 +56,7 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
           </p>
         </Link>
         <Link
-          href={`/candidates/resume/editor/${resume.id}`}
+          href={`/resume/editor/${resume.id}`}
           className="relative inline-block w-full"
         >
           <ResumePreview
@@ -93,11 +93,11 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
         onSuccess: () => {
             toast("Your resume has been deleted!");
             utils.resume.getList.invalidate();
-            alert('Resume deleted successfully!');
+            setShowDeleteConfirmation(false);
         },
         onError: (error: { message: string }) => {
             toast(error.message);
-            alert('Resume deleted successfully!');
+            setShowDeleteConfirmation(false);
         }
     });
     
@@ -106,9 +106,11 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
             toast("Your resume has been set as default!");
             utils.resume.getList.invalidate();
             utils.candidates.getProfile.invalidate();
+            setShowSetDefaultConfirmation(false);
         },
         onError: (error: { message: string }) => {
             toast(error.message);
+            setShowSetDefaultConfirmation(false);
         }
     });
   return (

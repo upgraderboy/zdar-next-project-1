@@ -77,16 +77,21 @@ export const jobRouter = createTRPCRouter({
     }),
 
   applyJob: candidateProcedure
-    .input(z.object({ jobId: z.string() }))
+    .input(z.object({ jobId: z.string(), resumeId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { id } = ctx.user;
-      const { jobId } = input;
-      const job = await db.insert(jobApplications).values({
+      const { jobId, resumeId } = input;
+      const existing = await db.select().from(jobApplications).where(and(eq(jobApplications.jobId, jobId), eq(jobApplications.candidateId, id))).then(res => res[0]);
+      if (existing) {
+        await db.delete(jobApplications).where(and(eq(jobApplications.jobId, jobId), eq(jobApplications.candidateId, id)));
+        return { success: true, action: "removed", message: "Job removed from your applications!" };
+      }
+      await db.insert(jobApplications).values({
         jobId,
         candidateId: id,
-        resumeId: id,
+        resumeId,
       });
-      return job;
+      return { success: true, action: "applied", message: "Job applied successfully!" };
     }),
   getJobApplications: candidateProcedure
     .query(async ({ ctx }) => {
@@ -230,14 +235,13 @@ export const jobRouter = createTRPCRouter({
       const { id } = ctx.user;
       const application = await db.select().from(jobApplications).where(and(eq(jobApplications.jobId, input.jobId), eq(jobApplications.candidateId, id))).then(res => res[0]);
       if (!application) {
-        return {
-          hasApplied: false,
-        };
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Application Not Found!"
+        })
       }
       console.log(application);
-      return {
-        hasApplied: true,
-      };
+      return application.applicationStatus;
     })
 });
 

@@ -23,7 +23,7 @@ export default function NewResumeModal() {
             toast.success("Resume created successfully");
             utils.resume.getList.invalidate();
             form.reset();
-            router.push(`/candidates/resume/editor/${resumeData.id}`);
+            router.push(`/resume/editor/${resumeData.id}`);
         },
         onError: (error) => {
             toast.error(error.message);
