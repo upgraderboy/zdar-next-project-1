@@ -147,6 +147,10 @@ export const jobs = pgTable("jobs", {
     // skillsRequired: json("skills_required").$type<string[]>().default(sql`'[]'::json`).notNull(), // comma separated or JSON string
     genderPreference: positionGenderEnum("gender_preference").default("All"),
     // applicationDeadline: date("application_deadline"),
+    isRemote: boolean("is_remote").default(false),
+    stateName: varchar("state_name", { length: 128 }),
+    countryName: varchar("country_name", { length: 128 }),
+    companyName: varchar("company_name", { length: 128 }),
     ageCategory: ageCategoryEnum("age_category").default("up to 20").array().notNull(),
     isDisabilityAllowed: boolean("is_disability_allowed").default(false),
     isPublished: boolean("is_published").default(false),
